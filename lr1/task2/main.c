@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "limitCalculation.c"
-
+#include "rowCalculation.c"
 
 // По сути у нас должно быть 15 исчеслений, 5 строк, 3 столбца
 int main(){
@@ -22,5 +22,8 @@ int main(){
 
     code_num = limGamma(eps, &resultL);
     printf("Limit of gamma = %Lf\n", resultL);
+    
+    code_num = rowE(eps, &resultL);
+    printf("Row of e = %Lf\n", resultL);
     return 0;
 }

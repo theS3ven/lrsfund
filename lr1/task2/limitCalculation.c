@@ -19,7 +19,6 @@ unsigned long long int C(int n, int k){
     return answ;
 }
 
-// убрать рекурентность и сделать по обычному
 s_STATE limE(double precision, long double* result){
     int n = 1;
     long double prev = 0, e = 1; // начальное выражение для рекурентного подсчета
