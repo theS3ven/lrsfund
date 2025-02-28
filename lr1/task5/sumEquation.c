@@ -1,5 +1,6 @@
 #include "sumEquation.h"
 
+
 s_STATE firstSum(double precision, double x, long double* result){
     int n = 1;
     long double prev = 0.1L, sum = 1.0L, calc = 1.0L; 
@@ -7,7 +8,7 @@ s_STATE firstSum(double precision, double x, long double* result){
         prev = sum;
         calc *= (x / n);
         sum += calc;
-        if(fabsl(sum) > DBL_MAX){
+        if(!isfinite(sum)){
             return s_ERROR_DATA;
         }
         n++;
@@ -24,7 +25,7 @@ s_STATE secSum(double precision, double x, long double* result){
         prev = sum;
         calc *= (x * x) / (4.0 * n * n - 2.0 * n) * (-1);
         sum += calc;
-        if(fabsl(sum) > DBL_MAX){
+        if(x >= 2){
             return s_ERROR_DATA;
         }
         n++;
@@ -40,7 +41,7 @@ s_STATE thirdSum(double precision, double x, long double* result){
         prev = sum;
         calc *= 9.0 * n * n * x * x / (9.0 * n * n - 9.0 * n + 2.0);
         sum += calc;
-        if(fabsl(sum) > DBL_MAX){
+        if(fabsl(x) >= 1.0L){
             return s_ERROR_DATA;
         }
         n++;
@@ -56,7 +57,7 @@ s_STATE fourthSum(double precision, double x, long double* result){
         prev = sum;
         calc *= (-1.0) * (x * x) * (2.0 * n - 1) / (2.0 * n);
         sum += calc;
-        if(fabsl(sum) > DBL_MAX){
+        if(fabsl(x) >= sqrt(2)){
             return s_ERROR_DATA;
         }
         n++;

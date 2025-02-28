@@ -14,16 +14,28 @@ int main(int argc, char** args){
 
 
     code_num = firstSum(eps, x, &resultL);
-    printf("First equation = %Lf\n", resultL);
-
+    if(!code_num){
+        printf("First equation = %Lf\n", resultL);
+    }else{
+        printf("Row is diverges\n");
+    }
     code_num = secSum(eps, x, &resultL);
-    printf("Second equation = %Lf\n", resultL);
-
+    if(!code_num){
+        printf("Second equation = %Lf\n", resultL);
+    }else{
+        printf("Row is diverges\n");
+    }
     code_num = thirdSum(eps, x, &resultL);
+    if(!code_num){
     printf("Third equation = %Lf\n", resultL);
-
+    }else{
+        printf("Row is diverges\n");
+    }
     code_num = fourthSum(eps, x, &resultL);
+    if(!code_num){
     printf("Fourth equation = %Lf\n", resultL);
-
+    }else{
+        printf("Row is diverges\n");
+    }
     return 0;
 }
