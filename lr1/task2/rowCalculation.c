@@ -7,7 +7,7 @@ s_STATE rowE(double precision, long double* result){
     while(n < 1000 && fabsl(e - prev) > precision){
         prev = e;
         e += 1.0L / factorial(n);
-        if(fabsl(e) > DBL_MAX){
+        if(!isfinite(e)){
             return s_ERROR_DATA;
         }
         n++;
@@ -22,7 +22,7 @@ s_STATE rowPi(double precision, long double* result){
     while(n < 1000 && fabsl(pi - prev) > precision){
         prev = pi;
         pi += 4 * powl(-1, (n - 1)) / (2.0L * n - 1);
-        if(fabsl(pi) > DBL_MAX){
+        if(!isfinite(pi)){
             return s_ERROR_DATA;
         }
         n++;
@@ -37,7 +37,7 @@ s_STATE rowLn2(double precision, long double* result){
     while(n < 1000 && fabsl(ln2 - prev) > precision){
         prev = ln2;
         ln2 += powl(-1, (n - 1)) / n;
-        if(fabsl(ln2) > DBL_MAX){
+        if(!isfinite(ln2)){
             return s_ERROR_DATA;
         }
         n++;
@@ -52,7 +52,7 @@ s_STATE rowSqrt2(double precision, long double* result){
     while(n < 1000 && fabsl(sqrt2 - prev) > precision){
         prev = sqrt2;
         sqrt2 *= powl(2, powl(2, (-1 * n)));
-        if(fabsl(sqrt2) > DBL_MAX){
+        if(!isfinite(sqrt2)){
             return s_ERROR_DATA;
         }
         n++;
@@ -68,13 +68,12 @@ s_STATE rowGamma(double precision, long double* result){
     while(n < 100000000 && zero_counter < 1000){  // magic numbers again)
         prev = gamma;
         gamma += 1.0L / powl(floorl(sqrtl(n)), 2) - (1.0L / n);
-        // printf("%lf\n", gamma);
         if (fabsl(gamma - prev) > precision) {
             zero_counter++;
         } else {
             zero_counter = 0;
         }
-        if(fabsl(gamma) > DBL_MAX){
+        if(!isfinite(gamma)){
             return s_ERROR_DATA;
         }
         n++;
