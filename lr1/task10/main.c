@@ -31,7 +31,7 @@ int fromBase(char number[99], int len, int base){
     len--;
     for(int i = len; i >= 0; i--){
         if(i == 0 && number[i] == '-'){
-            return (-1) * result;
+            return -result;
         }
         int multiple = 0;
         if(number[i] >= '0' && number[i] <= '9'){
@@ -47,6 +47,10 @@ int fromBase(char number[99], int len, int base){
 void writeInBase(int decimal, int base){
     int len = 0;
     char number[99];
+    if(decimal < 0){
+        printf("-");
+        decimal *= (-1);
+    }
     while(decimal){
         int digit = decimal % base;
         if(digit <= 9){
