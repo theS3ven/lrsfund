@@ -68,6 +68,11 @@ void writeInBase(int decimal, int base){
 }
 
 int main(int argc, char** args){
+    // ?
+    // if(argc > 1){   
+    //     printf("Too many args\n");
+    //     return s_TOO_MANY_ARGS;
+    // }
     int base;
     scanf("%d", &base); 
     if(base < 2 || base > 36){
