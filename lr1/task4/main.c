@@ -5,6 +5,9 @@
 #include "states.h"
 #include "handlers.c"
 
+// Машинное слово, размер виртуальной памяти, отличия, стек, куча, nullptr, null, 0
+// 56
+
 const char *get_filename_ext(const char *filename) {
     const char *dot = strrchr(filename, '.');
     if(!dot || dot == filename) return NULL;
@@ -41,17 +44,17 @@ int main(int argc, char **argv){
     if(file_name){  // Проверка, существует ли файл
         if(fopen(file_name, "r") == NULL || get_filename_ext(file_name) == NULL){
             perror("file cannot be open\n");
-            abort();
+            return s_ERROR_DATA;
         }
     }
     char* catch_flag;
     catch_flag = get_flag(flag);
     if(strlen(catch_flag) != 1){
         fprintf(stderr, "Error flag length, your flag was = %s\n", catch_flag);
-        abort();
+        return s_ERROR_DATA;;
     }
 
-    void(*handler[4])(const char*, const char*) = {
+    void(*handler[4])(const char*, const char*) = { // array ptr
         handleOptD,
         handleOptI,
         handleOptS,
@@ -62,18 +65,18 @@ int main(int argc, char **argv){
         new_path = argv[3];
         if(fopen(new_path, "r") == NULL || get_filename_ext(new_path) == NULL){
             perror("file cannot be open\n");
-            abort();
+            return s_ERROR_DATA;;
         }
     }else{
         if(argc > 3){
             fprintf(stderr, "Too many args\n");
-            abort();
+            return s_ERROR_DATA;;
         }
         size_t len_file = strlen(file_name);
         new_path = malloc(len_file + 5);  // "out_" = 4 символа + '0'
         if(!new_path){
             fprintf(stderr, "malloc() failed\n");
-            abort();
+            return s_ERROR_DATA;;
         }
         memcpy(new_path, "out_", 4);
         memcpy(new_path + 4, file_name, len_file + 1);
@@ -106,8 +109,8 @@ int main(int argc, char **argv){
     char *old = realpath(file_name, buf_file_name);
     char *new = realpath(new_path, buf_new_path);
     if(strcmp(old, new) == 0){
-        printf("AHUEL?\n");
-        abort();
+        printf("Same path name error\n");
+        return s_ERROR_DATA;;
     }
     printf("old path = %s, new path = %s\n", old, new);
     if(flag[1] != 'n'){

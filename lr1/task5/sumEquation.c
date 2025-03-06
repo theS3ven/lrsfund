@@ -39,7 +39,7 @@ s_STATE thirdSum(double precision, double x, long double* result){
         prev = sum;
         calc *= 9.0 * n * n * x * x / (9.0 * n * n - 9.0 * n + 2.0);
         sum += calc;
-        if(x * x >= 1.0L){
+        if(fabsl(x) >= 1.0L){
             return s_ERROR_DATA;
         }
         n++;
@@ -55,7 +55,7 @@ s_STATE fourthSum(double precision, double x, long double* result){
         prev = sum;
         calc *= (-1.0) * (x * x) * (2.0 * n - 1) / (2.0 * n);
         sum += calc;
-        if(fabsl(x) >= 1.0L){
+        if(fabsl(x) > 1.0L){
             return s_ERROR_DATA;
         }
         n++;

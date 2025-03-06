@@ -2,11 +2,13 @@
 #include "limitCalculation.h"
 
 s_STATE rowE(double precision, long double* result){
-    int n = 0;
-    long double prev = 0.1, e = 0; // магическое число нужно для выполнения первого условия
-    while(n < 1000 && fabsl(e - prev) > precision){
+    int n = 1;
+    long double prev = 0.1, e = 2; // магическое число нужно для выполнения первого условия
+    long double calc = 1;
+    while(fabsl(e - prev) > precision){
         prev = e;
-        e += 1.0L / factorial(n);
+        calc *= 1.0L / (n + 1);
+        e += calc;
         if(!isfinite(e)){
             return s_ERROR_DATA;
         }
@@ -17,29 +19,35 @@ s_STATE rowE(double precision, long double* result){
 }
 
 s_STATE rowPi(double precision, long double* result){
-    int n = 1;
+    int n = 1, sign = 1;
     double prev = 0.1, pi = 0.0L;
-    while(n < 1000 && fabsl(pi - prev) > precision){
+    long double calc = 0;
+    while(fabsl(pi - prev) > precision){
         prev = pi;
-        pi += 4 * powl(-1, (n - 1)) / (2.0L * n - 1);
+        calc = sign / (2 * n - 1.0L);
+        pi += calc;
         if(!isfinite(pi)){
             return s_ERROR_DATA;
         }
+        sign *= -1;
         n++;
     }
-    *result = pi;
+    *result = 4 * pi;
     return s_SUCCESS;
 }
 
 s_STATE rowLn2(double precision, long double* result){
     int n = 1;
-    double prev = 0.1, ln2 = 0.0L;
-    while(n < 1000 && fabsl(ln2 - prev) > precision){
+    double prev = 0.1, ln2 = 0.0L, sign = 1.0L;
+    long double calc = 0;
+    while(fabsl(ln2 - prev) > precision){
         prev = ln2;
-        ln2 += powl(-1, (n - 1)) / n;
+        calc = sign / n;
+        ln2 += calc;
         if(!isfinite(ln2)){
             return s_ERROR_DATA;
         }
+        sign *= -1;
         n++;
     }
     *result = ln2;
@@ -47,11 +55,13 @@ s_STATE rowLn2(double precision, long double* result){
 }
 
 s_STATE rowSqrt2(double precision, long double* result){
-    int n = 2;
-    double prev = 0.1, sqrt2 = 1.0L;
-    while(n < 1000 && fabsl(sqrt2 - prev) > precision){
+    int n = 3;
+    double prev = 0.1, sqrt2, calc = powl(2.0, 0.25);
+    sqrt2 = calc;
+    while(fabsl(sqrt2 - prev) > precision){
         prev = sqrt2;
-        sqrt2 *= powl(2, powl(2, (-1 * n)));
+        calc = powl(calc, 0.5);
+        sqrt2 *= calc;
         if(!isfinite(sqrt2)){
             return s_ERROR_DATA;
         }
@@ -62,22 +72,24 @@ s_STATE rowSqrt2(double precision, long double* result){
 }
 
 s_STATE rowGamma(double precision, long double* result){
-    int n = 2;
-    double prev = 0.1, gamma = 0.0L, calculation;
-    int zero_counter = 0;
-    while(n < 100000000 && zero_counter < 1000){  // magic numbers again)
-        prev = gamma;
-        gamma += 1.0L / powl(floorl(sqrtl(n)), 2) - (1.0L / n);
-        if (fabsl(gamma - prev) > precision) {
-            zero_counter++;
-        } else {
-            zero_counter = 0;
+    double previous = 0;
+    double current = 0.5;
+    int k = 2;
+    double l = 0;
+    do
+    {
+        previous = current;
+        k++;
+        l = sqrt(k);
+        if (fmod(l, 1.0) == 0)
+        {
+            k++;
+            l = (int)pow(k, 1.0 / 2.0);
         }
-        if(!isfinite(gamma)){
-            return s_ERROR_DATA;
-        }
-        n++;
-    }
-    *result = -1 * M_PI * M_PI / 6 + gamma;
+        current += 1.0 / pow((int)l, 2.0) - 1.0 / k;
+
+    } while (fabs(previous - current) >= precision);
+
+    *result = (current - pow(M_PI, 2) / 6);
     return s_SUCCESS;
 }

@@ -21,7 +21,7 @@ double fourthInteg(double x){
 }
 
 s_STATE trapezoidInteg(double (*f)(double), double* result){
-    int steps = 1000;
+    int steps = 100000000;
     double step = 1.0L / steps;
     double answer = 0.0L;
     for(int i = 2; i <= steps; i++){
