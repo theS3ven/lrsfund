@@ -3,17 +3,19 @@
 #include "parser.c"
 #include "states.h"
 
-int main(int argc, char** args){  //TODO if *f in borders
+int main(int argc, char** args){
     double eps;
 	int code_num = ParseArgs(argc, args, &eps);
 	if (code_num != s_SUCCESS) {
 		LogErrors(code_num);
 		return code_num;
 	}
-    // double resultL;
-    printf("%Lf\n", bin_search(0.000001, 12.0, eps, eqX));
+    double result;
+    if(bin_search(&result, 11, 12.0, eps, eqX) == s_SUCCESS){
+        printf("%f", result);
+    }else{
+        printf("Error %u\n", bin_search(&result, 11, 12.0, eps, eqX));
+    }
 
-
-
-
+    return 0;
 }

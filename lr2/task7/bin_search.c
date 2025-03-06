@@ -1,7 +1,7 @@
 #include "bin_search.h"
 #include "states.h"
 
-long double bin_search(double left, double right, double fault, long double (*func)(long double x)){
+s_STATE bin_search(double* result, double left, double right, double fault, long double (*func)(long double x)){
     long double mid;
 
     if(fault <= 0L){
@@ -10,22 +10,22 @@ long double bin_search(double left, double right, double fault, long double (*fu
     if(func(left) * func(right) > 0L){
         return s_NO_ROOTS;
     }
-
     while (fabsl(right - left) > fault){
         mid = (left + right) / 2.0;
         long double f_left = func(left);
         long double f_right = func(right);
         long double f_mid = func(mid);
         if (fabs(f_mid) < fault){
-            return mid;
+            *result = mid;
+            return s_SUCCESS;
         }if (f_mid * f_left < 0){
             right = mid;
         }if (f_mid * f_right < 0){
             left = mid;
         }
     }
-    return (left + right) / 2.0;
-    
+    *result = (left + right) / 2.0L;
+    return s_SUCCESS;
 }
 
 long double eqE(long double x) {

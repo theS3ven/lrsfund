@@ -7,8 +7,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "states.h"
 
-long double bin_search(double, double, double, long double (*)(long double));
+s_STATE bin_search(double*, double, double, double, long double (*)(long double));
 long double eqE(long double);
 long double eqX(long double);
 long double eqLn2(long double);
