@@ -4,6 +4,10 @@
 s_STATE bin_search(double* result, double left, double right, double fault, long double (*func)(long double x)){
     long double mid;
 
+    if(func == NULL){
+        return s_ERROR_DATA;
+    }
+
     if(fault <= 0L){
         return s_ERROR_EPSILON;
     }
@@ -43,4 +47,3 @@ long double eqLn2(long double x){
 long double eqSqrt2(long double x){
     return x * x - 2.0;
 }
-
