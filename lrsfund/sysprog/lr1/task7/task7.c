@@ -69,8 +69,8 @@ int main(int argc, char** argv){
             continue;
         }
         printf("%s:\n", argv[i]);
-        while(!(pDirent = readdir(pDir))){
-            printf("File name: %s, № {%llu} Inode", pDirent->d_name, pDirent->d_ino);
+        while((pDirent = readdir(pDir)) != NULL){
+            printf("File name: %s, № {%llu} Inode ", pDirent->d_name, pDirent->d_ino);
             char file_path[MAX_PATH];
             snprintf(file_path, MAX_PATH, "%s/%s", argv[i], pDirent->d_name);
             if(file_permissions(file_path) != OK){
