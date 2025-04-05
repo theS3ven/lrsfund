@@ -18,12 +18,12 @@ status_code file_permissions(const char* path){
     if(!path){
         return PATH_ERROR;
     }
-    struct stat s;
-    if(stat(path, &s) != 0){
+    struct stat st;
+    if(lstat(path, &st) != 0){
         return INVALID_DATA;
     }
-
-    mode_t mode = s.st_mode;
+    
+    mode_t mode = st.st_mode;
     char permissions[11] = "----------";
 
     if (S_ISDIR(mode)) permissions[0] = 'd';
